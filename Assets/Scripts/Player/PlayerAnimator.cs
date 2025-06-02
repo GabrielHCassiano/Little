@@ -8,7 +8,7 @@ public class PlayerAnimator : MonoBehaviour
     private Rigidbody2D rb;
     private InputSystem inputSystem;
 
-    private PlayerStatus playerStatus;
+    private StatusControl statusControl;
 
     private GameObject player_Sprite;
 
@@ -23,13 +23,13 @@ public class PlayerAnimator : MonoBehaviour
     {
     }
 
-    public PlayerAnimator (Animator player_Animator, Animator weapon_Animator, Rigidbody2D rb, InputSystem inputSystem, PlayerStatus playerStatus, GameObject player_Sprite)
+    public PlayerAnimator (Animator player_Animator, Animator weapon_Animator, Rigidbody2D rb, InputSystem inputSystem, StatusControl statusControl, GameObject player_Sprite)
     {
         this.player_Animator = player_Animator;
         this.weapon_Animator = weapon_Animator;
         this.rb = rb;
         this.inputSystem = inputSystem;
-        this.playerStatus = playerStatus;
+        this.statusControl = statusControl;
         this.player_Sprite = player_Sprite;
     }
 
@@ -43,10 +43,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         player_Animator.SetFloat("Horizontal", rb.linearVelocity.x);
         player_Animator.SetFloat("Vertical", rb.linearVelocity.y);
-        player_Animator.SetBool("InDash", playerStatus.In_Dash);
-        player_Animator.SetBool("InDefend", playerStatus.In_Defend);
-        player_Animator.SetBool("InAttack", playerStatus.In_Attack);
+        player_Animator.SetBool("InDash", statusControl.In_Dash);
+        player_Animator.SetBool("InDefend", statusControl.In_Defend);
+        player_Animator.SetBool("InAttack", statusControl.In_Attack);
 
-        weapon_Animator.SetBool("InAttack", playerStatus.In_Attack);
+        weapon_Animator.SetBool("InAttack", statusControl.In_Attack);
+        weapon_Animator.SetInteger("Current_Attack", statusControl.Current_Attack);
     }
 }

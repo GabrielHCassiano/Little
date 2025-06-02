@@ -6,7 +6,7 @@ public class PlayerCooldown : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    private PlayerStatus playerStatus;
+    private StatusControl statusControl;
     private PlayerMovement playerMovement;
 
     private GameObject player_Sprite;
@@ -24,10 +24,10 @@ public class PlayerCooldown : MonoBehaviour
 
     }
 
-    public void SetPlayerCooldown(Rigidbody2D rb, PlayerStatus playerStatus, PlayerMovement playerMovement, GameObject player_Sprite, GameObject[] dash_Sprite)
+    public void SetPlayerCooldown(Rigidbody2D rb, StatusControl statusControl, PlayerMovement playerMovement, GameObject player_Sprite, GameObject[] dash_Sprite)
     {
         this.rb = rb;
-        this.playerStatus = playerStatus;
+        this.statusControl = statusControl;
         this.playerMovement = playerMovement;
         this.player_Sprite = player_Sprite;
         this.dash_Sprite = dash_Sprite;
@@ -35,10 +35,10 @@ public class PlayerCooldown : MonoBehaviour
 
     public IEnumerator Dash_Cooldown()
     {
-        playerStatus.Can_Dash = false;
-        playerStatus.Can_Move = false;
-        playerStatus.In_Dash = true;
-        rb.linearVelocity = new Vector2(playerMovement.Current_Direction.x * playerStatus.Speed * 2, playerMovement.Current_Direction.y * playerStatus.Speed * 2);
+        statusControl.Can_Dash = false;
+        statusControl.Can_Move = false;
+        statusControl.In_Dash = true;
+        rb.linearVelocity = new Vector2(playerMovement.Current_Direction.x * statusControl.Speed * 2, playerMovement.Current_Direction.y * statusControl.Speed * 2);
         for (int i = 0; i < 5; i++)
         {
             dash_Sprite[i].transform.parent = null;
@@ -48,14 +48,14 @@ public class PlayerCooldown : MonoBehaviour
             dash_Sprite[i].SetActive(true);
             yield return new WaitForSeconds(0.05f);
         }
-        playerStatus.In_Dash = false;
-        playerStatus.Can_Move = true;
+        statusControl.In_Dash = false;
+        statusControl.Can_Move = true;
         for (int i = 0; i < 5; i++)
         {
             dash_Sprite[i].transform.parent = player_Sprite.transform;
             dash_Sprite[i].SetActive(false);
             yield return new WaitForSeconds(0.05f);
         }
-        playerStatus.Can_Dash = true;
+        statusControl.Can_Dash = true;
     }
 }

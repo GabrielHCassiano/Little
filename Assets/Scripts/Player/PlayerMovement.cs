@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private InputSystem inputSystem;
     private Rigidbody2D rb;
 
-    private PlayerStatus playerStatus;
+    private StatusControl statusControl;
     private PlayerCooldown playerCooldown;
 
     private GameObject weapon_Object;
@@ -26,11 +26,11 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    public PlayerMovement (InputSystem inputSystem, Rigidbody2D rb, PlayerStatus playerStatus, PlayerCooldown playerCooldown, GameObject weapon_Object)
+    public PlayerMovement (InputSystem inputSystem, Rigidbody2D rb, StatusControl statusControl, PlayerCooldown playerCooldown, GameObject weapon_Object)
     {
         this.inputSystem = inputSystem;
         this.rb = rb;
-        this.playerStatus = playerStatus;
+        this.statusControl = statusControl;
         this.playerCooldown = playerCooldown;
         this.weapon_Object = weapon_Object;
     }
@@ -40,15 +40,15 @@ public class PlayerMovement : MonoBehaviour
         if (inputSystem.Input_Move_Direction != Vector2.zero)
             current_Direction = inputSystem.Input_Move_Direction;
 
-        if (playerStatus.Can_Move)
+        if (statusControl.Can_Move)
         {
-            rb.linearVelocity = new Vector2(inputSystem.Input_Move_Direction.x * playerStatus.Speed, inputSystem.Input_Move_Direction.y * playerStatus.Speed);
+            rb.linearVelocity = new Vector2(inputSystem.Input_Move_Direction.x * statusControl.Speed, inputSystem.Input_Move_Direction.y * statusControl.Speed);
         }
     }
 
     public void DashLogic()
     {
-        if (inputSystem.Input_Dash && playerStatus.Can_Dash)
+        if (inputSystem.Input_Dash && statusControl.Can_Dash)
         {
             inputSystem.Input_Dash = false;
             playerCooldown.StartCoroutine(playerCooldown.Dash_Cooldown());

@@ -8,7 +8,7 @@ public class PlayerControl : MonoBehaviour
     private Animator weapon_Animator;
     private Rigidbody2D rb;
 
-    private PlayerStatus playerStatus;
+    private StatusControl statusControl;
     private PlayerMovement playerMovement;
     private PlayerCombat playerCombat;
     private PlayerAnimator playerAnimator;
@@ -27,25 +27,27 @@ public class PlayerControl : MonoBehaviour
         weapon_Animator = weapon_Object.GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
-        playerStatus = GetComponent<PlayerStatus>();
+        statusControl = GetComponent<StatusControl>();
         playerCooldown = GetComponent<PlayerCooldown>();
 
-        playerMovement = new PlayerMovement(inputSystem, rb, playerStatus, playerCooldown, weapon_Object);
-        playerCombat = new PlayerCombat(inputSystem, playerStatus);
-        playerAnimator = new PlayerAnimator(player_Animator, weapon_Animator, rb, inputSystem, playerStatus, player_Sprite);
+        playerMovement = new PlayerMovement(inputSystem, rb, statusControl, playerCooldown, weapon_Object);
+        playerCombat = new PlayerCombat(inputSystem, statusControl, weapon_Object.GetComponent<WeaponStatus>());
+        playerAnimator = new PlayerAnimator(player_Animator, weapon_Animator, rb, inputSystem, statusControl, player_Sprite);
 
-        playerCooldown.SetPlayerCooldown(rb, playerStatus, playerMovement, player_Sprite, dash_Sprite);
+        playerCooldown.SetPlayerCooldown(rb, statusControl, playerMovement, player_Sprite, dash_Sprite);
+
+        statusControl.SetStatus();
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerStatus.UpLevel();
-        playerStatus.ValueBarLogic();
-        playerStatus.ValueStatusText();
+        statusControl.UpLevel();
+        statusControl.ValueBarLogic();
+        statusControl.ValueStatusText();
 
         playerMovement.AimLogic();
-        //playerCombat.AttackWeapon();
+        playerCombat.AttackWeapon();
         playerAnimator.FlipLogic();
         playerMovement.DashLogic();
         playerAnimator.AnimationsLogic();

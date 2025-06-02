@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStatus : MonoBehaviour
+public class StatusControl : MonoBehaviour
 {
     [Header("Status Value")]
     [SerializeField] private int level = 1;
@@ -28,6 +28,13 @@ public class PlayerStatus : MonoBehaviour
 
     private bool can_Move = true, can_Dash = true, can_Defend = true, can_Attack = true;
     private bool in_Dash, in_Defend, in_Attack;
+
+    private int current_Attack = 0;
+
+    public void SetStatus()
+    {
+        current_Life = max_Life;
+    }
 
     public void ValueBarLogic()
     {
@@ -64,6 +71,19 @@ public class PlayerStatus : MonoBehaviour
         next_Strength_Text.text = (strength + 2).ToString();
         next_Dexterity_Text.text = (dexterity + 2).ToString();
     }
+
+    public void CanAttack()
+    {
+        can_Attack = true;
+    }
+
+    public void EndAttack()
+    {
+        in_Attack = false;
+        can_Attack = true;
+        current_Attack = 0;
+    }
+
 
     public void UpLevel()
     {
@@ -204,5 +224,12 @@ public class PlayerStatus : MonoBehaviour
         get { return in_Attack; }
         set { in_Attack = value; }
     }
+
+    public int Current_Attack
+    {
+        get { return current_Attack; }
+        set { current_Attack = value; }
+    }
+
 #endregion
 }

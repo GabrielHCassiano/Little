@@ -4,21 +4,28 @@ public class PlayerCombat : MonoBehaviour
 {
     private InputSystem inputSystem;
 
-    private PlayerStatus playerStatus;
+    private StatusControl statusControl;
 
-    public PlayerCombat (InputSystem inputSystem, PlayerStatus playerStatus)
+    private WeaponStatus weaponStatus;
+
+    public PlayerCombat (InputSystem inputSystem, StatusControl statusControl, WeaponStatus weaponStatus)
     {
         this.inputSystem = inputSystem;
-        this.playerStatus = playerStatus;
+        this.statusControl = statusControl;
+        this.weaponStatus = weaponStatus;
     }
 
     public void AttackWeapon()
     {
-        if(inputSystem.Input_Attack && playerStatus.Can_Attack)
+        if(inputSystem.Input_Attack && statusControl.Can_Attack)
         {
             inputSystem.Input_Attack = false;
-            playerStatus.Can_Attack = false;
-            playerStatus.In_Attack = true;
+
+            statusControl.Can_Attack = false;
+            statusControl.In_Attack = true;
+
+            if (statusControl.Current_Attack < weaponStatus.Max_Attack)
+                statusControl.Current_Attack++;
         }
     }
 
