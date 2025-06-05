@@ -29,7 +29,8 @@ public class StatusControl : MonoBehaviour
     private bool can_Move = true, can_Dash = true, can_Defend = true, can_Attack = true;
     private bool in_Dash, in_Defend, in_Attack;
 
-    private int current_Attack = 0;
+    private int current_Combo_Attack = 0;
+    private int combo_Attack = 0;
 
     public void SetStatus()
     {
@@ -75,13 +76,14 @@ public class StatusControl : MonoBehaviour
     public void CanAttack()
     {
         can_Attack = true;
+        combo_Attack = 0;
     }
 
     public void EndAttack()
     {
-        in_Attack = false;
         can_Attack = true;
-        current_Attack = 0;
+        combo_Attack = 0;
+        current_Combo_Attack = 0;
     }
 
 
@@ -225,11 +227,17 @@ public class StatusControl : MonoBehaviour
         set { in_Attack = value; }
     }
 
-    public int Current_Attack
+    public int Current_Combo_Attack
     {
-        get { return current_Attack; }
-        set { current_Attack = value; }
+        get { return current_Combo_Attack; }
+        set { current_Combo_Attack = value; }
     }
 
-#endregion
+    public int Combo_Attack
+    {
+        get { return combo_Attack; }
+        set { combo_Attack = value; }
+    }
+
+    #endregion
 }

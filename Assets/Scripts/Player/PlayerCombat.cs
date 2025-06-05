@@ -22,10 +22,13 @@ public class PlayerCombat : MonoBehaviour
             inputSystem.Input_Attack = false;
 
             statusControl.Can_Attack = false;
-            statusControl.In_Attack = true;
 
-            if (statusControl.Current_Attack < weaponStatus.Max_Attack)
-                statusControl.Current_Attack++;
+            if (statusControl.Current_Combo_Attack < weaponStatus.Max_Attack)
+                statusControl.Current_Combo_Attack++;
+            else
+                statusControl.Current_Combo_Attack = 0;
+
+            statusControl.Combo_Attack = statusControl.Current_Combo_Attack;
         }
     }
 

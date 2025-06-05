@@ -47,7 +47,7 @@ public class PlayerAnimator : MonoBehaviour
         player_Animator.SetBool("InDefend", statusControl.In_Defend);
         player_Animator.SetBool("InAttack", statusControl.In_Attack);
 
-        weapon_Animator.SetBool("InAttack", statusControl.In_Attack);
-        weapon_Animator.SetInteger("Current_Attack", statusControl.Current_Attack);
+        weapon_Animator.SetTrigger("Attack_" + statusControl.Combo_Attack);
+        print(statusControl.Combo_Attack);
     }
 }
